@@ -1,38 +1,33 @@
 # Crawler and Scrapper of metroscubicos.com
 
+This code crawls the webpage metroscubicos.com and scrapes the information of the properties listed (Including, but not limited to, price, number of rooms, number of bathrooms, area, latitude and longitude). The user needs to specify location (State), type of property (houses or apartments), the type of offer (sale or rent), and an optional limit of properties to download. The script mainly relies on the use of requests and parsing html with beautifulsoup. It created a JSON file of the properties.
+
 ## Required libraries:
-- numpy
-- pandas
-- re
-- ast
-- queue
-- time
-- json
-- bs4
-- matplotlib
-- geopandas
-- shapely
-- requests
+- numpy 1.15.4
+- pandas 0.24.2
+- beautifulsoup4 4.7.1
+- matplotlib 3.0.3
+- geopandas 0.4.0+67.g08ad2bf
+- shapely 1.6.4.post2
+- requests 2.21.0
 
 ## How to run the code:
 
-To run a test of the crawler, scrapper and assign the distance meassures
-with 100 houses and 100 apartmens, run the following function of main.py:
+From terminal run: python crawler.py <'State'> <'type_of_offer'> <'type_of_property'> <'outputJSON'> <'limit'(optional)>
 
-crawl_scrape_distance(100, 'test')
+Examples: 
 
-To run the predictive algorithm with all the dataset we downloaded (30,000 +),
-run the following function of main.py
+- Download the first 10 houses at sale in Distrito Federal:
 
-predict('./Intermediate_Files/results_with_metrodata.json')
+python crawler.py 'Distrito Federal' 'sale' 'houses' '/Users/camiloariasm/houses_df.json' 10
 
-To produce the visualizations run:
-visualize()
+- Download all apartments at rent in the State of Mexico:
+
+python crawler.py 'Estado de Mexico' 'rent' 'apartments' '/Users/camiloariasm/apartments_edomex.json' 10
 
 
 ## Description of the python scripts:
 
-main.py: Main code to run all the project.
 
 Crawler.py: Crawler and scrapper of the marketplace. It obtains all the
 characteristics listed of the properties in the market, including price
@@ -49,12 +44,3 @@ results, the crawler recursivelly builds submarkets by applying filters. The res
 of this is a structure similar to a "tree" of markets. With this structure, the market
 crawl is also performes recursivelly, crawling and scrapping those markets that do not
 have submarkets. 
-
-distance.py: This code takes the results of the crawler and assigns to those properties
-that have latitude and longitude the distance to the closest metro station, using the
-estaciones-metro.json and the number of public goods within 5 km dnue_inegi_09.csv. 
-
-prediction.py: This code takes the dataset with the distance measures assigned and
-performs the predictive algorithms. Uses 2/3 of the data as training and 1/3 as test.
-This code relies heavily in the scikit package.  
-

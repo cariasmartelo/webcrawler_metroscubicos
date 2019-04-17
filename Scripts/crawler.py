@@ -12,6 +12,7 @@ import time
 import json
 import bs4
 import util
+import sys
 
 
 def get_soup(url):
@@ -486,10 +487,10 @@ def go(state, type_of_offer, type_of_prop, output_json_file,
     Function to crawl the entire market. Writes the resul to the json file
     Inputs:
         Inputs:
-            state: (State of Mexico) str
+            state: ('Distrito  Federal' or 'Estado de Mexico') str 
             type_of_offer: ('sale' or 'rent') str
             type_of_prop: ('houses' or 'apartments') str
-            output_json_file : str
+            output_json_file: str
             max_prop_visit: int
         Outputs:
             (list of dicts, int)
@@ -503,3 +504,14 @@ def go(state, type_of_offer, type_of_prop, output_json_file,
     print("Total time: {} seconds".format(round(time.time() - start_time)))
 
     return (prop_info, num_properties_scrapped)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 5:
+        print('Please specify State, type of offer, type of prop and Output file')
+    elif len(sys.argv) == 5:
+        go(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    else:
+        go(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],
+            int(sys.argv[5]))
+    
